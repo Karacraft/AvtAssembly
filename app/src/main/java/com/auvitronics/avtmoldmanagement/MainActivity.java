@@ -13,8 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.auvitronics.avtmoldmanagement.DB.AppDatabase;
-import com.auvitronics.avtmoldmanagement.Utilities.BarcodeScanner;
 import com.auvitronics.avtmoldmanagement.Models.Person;
+import com.auvitronics.avtmoldmanagement.Utilities.BarcodeScanner;
 import com.auvitronics.avtmoldmanagement.Utilities.Constants;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.btnOpenBarCodeScanner)
     Button btnOpenBarCodeScanner;
-    @BindView(R.id.tvBarCode)
-    TextView tvBarCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +38,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("Bar Code Scanner");
+//        setSupportActionBar(toolbar);
+
 
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -58,18 +55,18 @@ public class MainActivity extends AppCompatActivity {
 //
 //        }
         AppDatabase appDb = AppDatabase.getInstance(this);
-        Person person = new Person(1459,"Syed Ahmed","SUPERVISOR",32000,(32000/176));
+        Person person = new Person(1459, "Syed Ahmed", "SUPERVISOR", 32000, (32000 / 176));
         appDb.personDao().insertPerson(person);
-        Person person1 = new Person(21350,"Muhammad Maqbool","OPERATOR",30000,(30000/176));
+        Person person1 = new Person(21350, "Muhammad Maqbool", "OPERATOR", 30000, (30000 / 176));
         appDb.personDao().insertPerson(person1);
-        Person person2 = new Person(21993,"Sumair Ali","HELPER",18000,(18000/176));
+        Person person2 = new Person(21993, "Sumair Ali", "HELPER", 18000, (18000 / 176));
         appDb.personDao().insertPerson(person2);
 
         List<Person> persons = appDb.personDao().getPersonList();
         for (Person p :
                 persons) {
 
-        Log.d(Constants.TAG, "onCreate: " + p.toString());
+            Log.d(Constants.TAG, "onCreate: " + p.toString());
         }
 
         Person me = appDb.personDao().getPersonById(1459);
@@ -99,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @OnClick(R.id.btnSignInMain)
+    public void onSignInMainClicked(){
+        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+        startActivityForResult(intent,0);
+    }
+
     @OnClick(R.id.btnOpenBarCodeScanner)
     public void onViewClicked() {
         Intent intent = new Intent(MainActivity.this, BarcodeScanner.class);
@@ -111,17 +114,15 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 0 && data != null) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 Barcode barcode = data.getParcelableExtra("barcode");
-                tvBarCode.setText(barcode.displayValue);
+//                tvBarCode.setText(barcode.displayValue);
 
             } else {
-                tvBarCode.setText("No Barcode Detected");
+//                tvBarCode.setText("No Barcode Detected");
             }
-            if(resultCode == CommonStatusCodes.CANCELED){
-                tvBarCode.setText("Operation Cancelled");
+            if (resultCode == CommonStatusCodes.CANCELED) {
+//                tvBarCode.setText("Operation Cancelled");
             }
-        }
-        else
-        {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
