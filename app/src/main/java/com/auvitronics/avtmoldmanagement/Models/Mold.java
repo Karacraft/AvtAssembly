@@ -33,14 +33,14 @@ public class Mold {
     @ColumnInfo(name = "electricity_per_set")
     private float electricity_per_set;
 
-    public Mold(int itemcode, String partname, String customer, String unit, int production_order_id, float production_per_hour, float production_halfhourly, float electricity_per_set) {
+    public Mold(int itemcode, String partname, String customer, String unit, int production_order_id, float production_per_hour, float electricity_per_set) {
         this.itemcode = itemcode;
         this.partname = partname;
         this.customer = customer;
         this.unit = unit;
         this.production_order_id = production_order_id;
         this.production_per_hour = production_per_hour;
-        this.production_halfhourly = production_halfhourly;
+        this.production_halfhourly = production_per_hour / 2;
         this.electricity_per_set = electricity_per_set;
     }
 

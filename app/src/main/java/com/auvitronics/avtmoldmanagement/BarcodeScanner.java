@@ -1,4 +1,4 @@
-package com.auvitronics.avtmoldmanagement.Utilities;
+package com.auvitronics.avtmoldmanagement;
 
 import android.content.Intent;
 import android.media.Ringtone;
@@ -13,7 +13,7 @@ import android.view.SurfaceView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.auvitronics.avtmoldmanagement.R;
+import com.auvitronics.avtmoldmanagement.Utilities.Constants;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -94,7 +94,7 @@ public class BarcodeScanner extends AppCompatActivity {
                     Log.d(Constants.TAG, "receiveDetection : " + barcodes.valueAt(0).displayValue);
                     //  Return Back Data
                     Intent i = new Intent();
-                    i.putExtra("barcode",barcodes.valueAt(0));
+                    i.putExtra("scanned_data", barcodes.valueAt(0));
                     setResult(CommonStatusCodes.SUCCESS,i);
                     finish();
 

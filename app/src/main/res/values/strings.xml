@@ -13,15 +13,15 @@
     <string name="prompt_autofill_passcode">Your Password</string>
 
 
-    <!--    activity_main elements-->
+    <!--    activity_base elements-->
     <string name="app_subtitle_main">Main Menu</string>
     <string name="action_main_add_supervisor">Supervisor Sign In</string>
     <string name="action_main_add_workstation">Scan WorkStation</string>
+    <string name="action_main_add_mold">Scan Mold</string>
     <string name="action_main_add_production_order">Scan Production Order</string>
     <string name="action_main_add_operators">Scan Operators</string>
     <string name="action_main_add_helpers">Scan Helpers</string>
     <string name="action_main_start_production">Start Production</string>
-
 
 
     <string name="welcome">"Welcome !"</string>

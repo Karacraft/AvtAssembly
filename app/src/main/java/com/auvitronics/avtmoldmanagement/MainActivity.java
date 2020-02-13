@@ -7,19 +7,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import com.auvitronics.avtmoldmanagement.DB.AppDatabase;
-import com.auvitronics.avtmoldmanagement.Models.Person;
-import com.auvitronics.avtmoldmanagement.Utilities.BarcodeScanner;
 import com.auvitronics.avtmoldmanagement.Utilities.Constants;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,10 +22,30 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.btnOpenBarCodeScanner)
-    Button btnOpenBarCodeScanner;
+
+    @BindView(R.id.btnSelectProductionOrder)
+    Button btnSelectProductionOrder;
+    @BindView(R.id.btnSignInMain)
+    Button btnSignInMain;
+    @BindView(R.id.btnSelectWorkStation)
+    Button btnSelectWorkStation;
+    @BindView(R.id.btnSelectOperators)
+    Button btnSelectOperators;
+    @BindView(R.id.btnSelectHelpers)
+    Button btnSelectHelpers;
+    @BindView(R.id.btnStartProduction)
+    Button btnStartProduction;
+    @BindView(R.id.btnScanMold)
+    Button btnScanMold;
+    @BindView(R.id.tvPONumber)
+    TextView tvPONumber;
+    @BindView(R.id.tvWorkstation)
+    TextView tvWorkstation;
+    @BindView(R.id.tvMold)
+    TextView tvMold;
+    @BindView(R.id.tvSupervisor)
+    TextView tvSupervisor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
 //        setSupportActionBar(toolbar);
 
-
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -49,34 +63,11 @@ public class MainActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
-//        int resp = doesDeviceSupportBiomertic();
-//        if(resp == Constants.BIOMERTIC_AVAILABLE)
-//        {
-//
-//        }
-        AppDatabase appDb = AppDatabase.getInstance(this);
-        Person person = new Person(1459, "Syed Ahmed", "SUPERVISOR", 32000, (32000 / 176));
-        appDb.personDao().insertPerson(person);
-        Person person1 = new Person(21350, "Muhammad Maqbool", "OPERATOR", 30000, (30000 / 176));
-        appDb.personDao().insertPerson(person1);
-        Person person2 = new Person(21993, "Sumair Ali", "HELPER", 18000, (18000 / 176));
-        appDb.personDao().insertPerson(person2);
-
-        List<Person> persons = appDb.personDao().getPersonList();
-        for (Person p :
-                persons) {
-
-            Log.d(Constants.TAG, "onCreate: " + p.toString());
-        }
-
-        Person me = appDb.personDao().getPersonById(1459);
-        Log.d(Constants.TAG, me.toString());
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the navigation_items; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -96,34 +87,104 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.btnSignInMain)
-    public void onSignInMainClicked(){
-        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-        startActivityForResult(intent,0);
+
+    @OnClick(R.id.btnSelectProductionOrder)
+    public void onSelectProductionOrder() {
+        Intent intent = new Intent(MainActivity.this, BarcodeScanner.class);
+        startActivityForResult(intent, 1);
     }
 
-    @OnClick(R.id.btnOpenBarCodeScanner)
-    public void onViewClicked() {
+    @OnClick(R.id.btnSignInMain)
+    public void onSignInMainClicked() {
         Intent intent = new Intent(MainActivity.this, BarcodeScanner.class);
-        startActivityForResult(intent, 0);
+        startActivityForResult(intent, 2);
+    }
+
+    @OnClick(R.id.btnSelectWorkStation)
+    public void onSelectWorkStations() {
+        Intent intent = new Intent(MainActivity.this, BarcodeScanner.class);
+        startActivityForResult(intent, 3);
+    }
+
+    @OnClick(R.id.btnScanMold)
+    public void onScanMold() {
+        Intent intent = new Intent(MainActivity.this, BarcodeScanner.class);
+        startActivityForResult(intent, 4);
+    }
+
+    @OnClick(R.id.btnSelectOperators)
+    public void onSelectOperators() {
+        //  TODO:: create an activity to select max 5 Operators
+        Intent intent = new Intent(MainActivity.this, BarcodeScanner.class);
+        startActivityForResult(intent, 5);
+    }
+
+    @OnClick(R.id.btnSelectHelpers)
+    public void onSelectHelpers() {
+        //  TODO:: create an actviity to select max 5 Helpers
+        Intent intent = new Intent(MainActivity.this, BarcodeScanner.class);
+        startActivityForResult(intent, 6);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // RequestCOde is 0, which we sent in intent, this way we can use multiple intents
-        if (requestCode == 0 && data != null) {
-            if (resultCode == CommonStatusCodes.SUCCESS) {
-                Barcode barcode = data.getParcelableExtra("barcode");
-//                tvBarCode.setText(barcode.displayValue);
+        Log.d(Constants.TAG, "onActivityResult: in heree");
+        if (resultCode == CommonStatusCodes.CANCELED) {
+            Toast.makeText(this, "Nothing Received", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            } else {
-//                tvBarCode.setText("No Barcode Detected");
-            }
-            if (resultCode == CommonStatusCodes.CANCELED) {
-//                tvBarCode.setText("Operation Cancelled");
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == CommonStatusCodes.SUCCESS) {
+                    Barcode production_order = data.getParcelableExtra("scanned_data");
+                    tvPONumber.setText("Prod-Order # : " + production_order.displayValue);
+                    //TODO:: Enter Supervisor Data in Shared Prefs
+                    btnSignInMain.setEnabled(true);
+                }
+                break;
+            case 2:
+                if (resultCode == CommonStatusCodes.SUCCESS) {
+                    Barcode barcode = data.getParcelableExtra("scanned_data");
+                    tvSupervisor.setText("Supervisor : " + barcode.displayValue);
+                    btnSignInMain.setEnabled(false);
+                    btnSelectWorkStation.setEnabled(true);
+                    //TODO:: Enter Supervisor Data in Shared Prefs
+                }
+                break;
+            case 3:
+                if (resultCode == CommonStatusCodes.SUCCESS) {
+                    Barcode workstation = data.getParcelableExtra("scanned_data");
+                    btnSelectWorkStation.setEnabled(false);
+                    btnScanMold.setEnabled(true);
+                    tvWorkstation.setText("Workstation : " + workstation.displayValue);
+                    //TODO:: Enter Workstation Data in Shared Prefs
+                }
+                break;
+            case 4:
+                if (resultCode == CommonStatusCodes.SUCCESS) {
+                    Barcode mold = data.getParcelableExtra("scanned_data");
+                    btnSelectOperators.setEnabled(true);
+                    btnSelectHelpers.setEnabled(true);
+                    tvMold.setText("Mold : " + mold.displayValue);
+                    //TODO:: Enter Mold Data in Shared Prefs
+                }
+                break;
+            case 5:
+                if (resultCode == CommonStatusCodes.SUCCESS) {
+                    Barcode operators = data.getParcelableExtra("scanned_data");
+                    //TODO:: Enter Supervisor Data in Shared Prefs
+                }
+                break;
+            case 6:
+                if (resultCode == CommonStatusCodes.SUCCESS) {
+                    Barcode helpers = data.getParcelableExtra("scanned_data");
+                    //TODO:: Enter Supervisor Data in Shared Prefs
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }
