@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/home_screen"
+            android:title="Home Screen"
+            android:icon="@drawable/ic_home_white_24dp"
+            />
+        <item android:id="@+id/scan_production_order"
+            android:title="@string/action_main_add_production_order"
+            android:icon="@drawable/ic_prord_white_24dp"
+            />
+
+        <item android:id="@+id/scan_supervisor"
+            android:title="@string/action_main_add_supervisor"
+            android:icon="@drawable/ic_sup_white_24dp"
+            />
+
+        <item android:id="@+id/scan_workstation"
+            android:title="@string/action_main_add_workstation"
+            android:icon="@drawable/ic_workstation_white_24dp"
+            />
+
+        <item android:id="@+id/scan_mold"
+            android:title="@string/action_main_add_mold"
+            android:icon="@drawable/ic_mold_white_24dp"
+            />
+
+        <item android:id="@+id/scan_operators"
+            android:title="@string/action_main_add_operators"
+            android:icon="@drawable/ic_supervisor_account_white_24dp"
+
+            />
+
+        <item android:id="@+id/scan_helpers"
+            android:title="@string/action_main_add_helpers"
+            android:icon="@drawable/ic_android_white_24dp"
+            />
+    </group>
+</menu>

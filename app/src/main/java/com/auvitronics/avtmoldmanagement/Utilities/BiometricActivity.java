@@ -1,4 +1,4 @@
-package com.auvitronics.avtmoldmanagement;
+package com.auvitronics.avtmoldmanagement.Utilities;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
+
+import com.auvitronics.avtmoldmanagement.R;
 
 import java.util.concurrent.Executor;
 
